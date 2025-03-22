@@ -1,0 +1,248 @@
+@charset "UTF-8";
+
+.bg-content {
+	background-color: #F5F0DC;
+}
+
+.image-product .image-big {
+	margin: 0 0 0 50px;
+}
+.image{
+	border: 1px solid;
+	border-radius: 10px;	
+}
+.icon-share {
+	font-size: 30px;
+	margin: 0 5px 0 0;
+}
+
+.detail {
+	padding: 50px 0 0 0;
+	justify-content: center;
+}
+
+.share b {
+	font-size: 20px;
+}
+
+/* Detail Product */
+.detail-product {
+	margin: 0 0 0 50px;
+	padding: 0 0 0 30px;
+	border-left: 1px solid #cecece;
+}
+
+.detail-product .star {
+	display: inline;
+}
+
+.star .bi-star-fill {
+	color: #FAA41A;
+	font-size: 24px;
+}
+
+.detail-product .star .number-star {
+	color: #FAA41A;
+	font-size: 20px;
+	font-size: 30px;
+}
+
+.detail-product .name-product {
+	font-size: 40px;
+	font-weight: bold;
+	margin: 0 0 -10px 0;
+}
+
+.detail-product .star span {
+	font-size: 20px;
+}
+
+.text-number-evaluate, .text-number-buy {
+	color: #727272;
+}
+
+.detail-product2 {
+	margin: 0 0 0 20px;
+}
+
+.detail-product .price {
+	color: red;
+	font-size: 48px;
+	font-weight: bold;
+}
+
+.detail-product .description {
+	border-left: 3px solid red;
+}
+
+.detail-product .description span {
+	margin: 0 0 0 10px;
+	font-size: 24px;
+}
+
+.detail-product .salary {
+	color: #6C6C6C;
+	font-size: 16px;
+	margin: 70px 0 0 0;
+}
+
+/* Salary */
+.salary .box-add-salary .less-salary {
+	width: 30px;
+	text-align: center;
+	font-size: 20px;
+}
+
+.salary .box-add-salary .add-salary {
+	width: 30px;
+	text-align: center;
+	font-size: 20px;
+}
+
+.salary .box-add-salary .qty {
+	width: 50px;
+	text-align: center;
+	font-size: 20px;
+	margin: -5px;
+	background-color: #F5F0DC;
+	border: 1px solid;
+}
+
+.salary .box-add-salary {
+	margin: 0 15px 0 50px;
+}
+
+.salary .box-add-salary button {
+	border: 1px solid;
+}
+
+.button {
+	margin: 30px 0 0 0;
+}
+
+.btn-add-cart {
+	width: 209px;
+	height: 47px;
+	border-radius: 13px;
+}
+
+.btn-buy {
+	margin: 0 0 0 10px;
+	width: 161px;
+	height: 47px;
+	border-radius: 13px;
+}
+
+/* Detail Evaluate Star */
+.detail-evaluate-star {
+	border: 1px solid #366A1F;
+	background-color: rgba(114, 154, 88, 0.08);
+}
+
+.detail-evaluate-star .number-star {
+	margin: 0 0 0 40px;
+	color: #FAA41A;
+	font-size: 64px;
+}
+
+.detail-evaluate-star div {
+	color: #FAA41A;
+	font-size: 64px;
+	margin: -50px 0 0 0;
+}
+
+.detail-evaluate-star .bi-star-fill {
+	color: #FAA41A;
+	font-size: 35px;
+}
+
+.detail-evaluate-star .btn {
+	border: 1px solid #366A1F;
+	width: 139px;
+	font-size: 20px;
+	background: #fff;
+	color: #366A1F;
+}
+
+.card {
+	background-color: #F5F0DC;
+	border: none
+}
+
+.detail-evaluate .card .card-body .name {
+	font-size: 15px;
+}
+
+.detail-evaluate .card .card-body .bi-star-fill {
+	color: #FAA41A;
+	font-size: 15px;
+}
+
+.detail-evaluate .col-md-9 {
+	margin: 0 0 0 -50px;
+}
+
+.detail-evaluate .content {
+	margin: 0 0 0 85px;
+}
+
+/* Similar Product */
+.similar-product {
+	margin: 0 50px 0 50px;
+}
+
+.similar-product .product-name {
+	text-align: center;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.similar-product .product-price {
+	color: red;
+	font-size: 22px;
+	display: inline;
+}
+
+.similar-product .card {
+	height: 420px;
+	background-color: #509224;
+	transition: 0.5s;
+}
+
+/* .similar-product .card img {
+	width: 275px;
+	transition: transform .2s;
+}
+
+.similar-product .card img:hover {
+	transform: scale(1.03);
+} */
+
+.similar-product .card-body {
+	position: absolute;
+	bottom: 0;
+	margin: 20px 0 0 0;
+	width: 100%;
+	font-size: 20px;
+	font-weight: bold;
+	background-color: #fff;
+	border-top-left-radius: 150px 30px;
+	border-top-right-radius: 150px 30px;
+}
+
+.similar-product .see-more {
+	text-align: center;
+	margin: 20px 0 0 0;
+}
+.similar-product .card-body i {
+	padding-left: 80px;
+}
+
+.similar-product .see-more .xem-them {
+	text-align: center;
+	background-color: #366A1F;
+	border-radius: 20px;
+	width:136px;
+	color: #fff;
+}
+

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+</head>
+
+<body>
+
+    <nav id="sidebar" class="sidebar js-sidebar">
+        <div class="sidebar-content js-simplebar">
+            <a class="sidebar-brand" th:href="@{/adminIndex}"> <span class="align-middle"
+                    style="font-family: Rancho;">Snacks Việt</span>
+            </a>
+
+            <ul class="sidebar-nav">
+                <!-- 					<li class="sidebar-header">Pages</li> -->
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link" th:href="@{/adminIndex}"> <i class="fa-solid fa-house"></i>
+                        <span class="align-middle">Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link" th:href="@{/adminIndex/quan-ly-hoa-don}"> <i
+                            class="fa-solid fa-receipt"></i> <span class="align-middle">Quản lý Hóa đơn</span> </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link" th:href="@{/adminIndex/quan-ly-nguoi-dung}"> <i
+                            class="fa-solid fa-users"></i> <span class="align-middle">Quản lý Người dùng</span></a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" th:href="@{/adminIndex/quan-ly-san-pham}"> <i
+                            class="fa-solid fa-cookie-bite"></i> <span class="align-middle">Quản lý Sản phẩm</span></a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" th:href="@{/adminIndex/quan-ly-loai-san-pham}"> <i
+                            class="fa-solid fa-cookie-bite"></i> <span class="align-middle">Quản lý Loại sản
+                            phẩm</span></a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" th:href="@{/adminIndex/thong-ke}"> <i
+                            class="fa-solid fa-chart-simple"></i> <span class="align-middle">Thống kê</span></a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link" th:href="@{/adminIndex/danh-gia}"> <i
+                            class="fa-solid fa-star"></i> <span class="align-middle">Đánh giá</span></a>
+                </li>
+                <li class="sidebar-header"></li>
+
+            </ul>
+
+        </div>
+    </nav>
+
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

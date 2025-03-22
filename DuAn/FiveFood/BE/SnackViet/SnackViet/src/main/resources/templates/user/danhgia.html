@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.thymeleaf.org">
+
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <!-- FontAwesome 6.2.0 CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+        integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- (Optional) Use CSS or JS implementation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/js/all.min.js"
+        integrity="sha512-naukR7I+Nk6gp7p5TMA4ycgfxaZBJ7MO5iC3Fp6ySQyKFHOGfpkSZkYVWV5R7u7cfAicxanwYQ5D1e17EfJcMA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" th:href="@{/css/danhgia.css}">
+    <link rel="stylesheet" th:href="@{/css/menu.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+</head>
+
+<body>
+    <!-- Menu -->
+        <nav th:insert="@{user/menu}"></nav>
+    <!-- End Menu -->
+
+        <div class="main">
+            <b>ĐÁNH GIÁ SẢN PHẨM</b>
+
+            <form>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Ảnh</th>
+                            <th>Tên Sản Phẩm</th>
+                            <th>Số Lượng</th>
+                            <th>Số Tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="cart-item">
+                            <td class="align-content-center">
+                                <div class="product-info">
+                                    <!-- ảnh trong bản lịch sử mua -->
+                                    <span><img th:alt="" th:src="@{|/image/AnhSanPham/${sanpham.hinhAnh}|}"
+                                            width="150px"></span>
+                                </div>
+                            </td>
+                            <td class="align-content-center">[[${sanpham.tenSanPham}]]<!-- tên trong bản lịch sử mua -->
+                            </td>
+                            <td class="align-content-center">[[${soLuong}]]</td>
+                            <!-- số lượng trong bản lịch sử mua -->
+                            <td class="align-content-center" style="color: red;">
+                                <span th:text="${#numbers.formatDecimal(tongTien,0,'COMMA,0,'POINT') + ' đ'}"></span>
+                            </td>
+                            <!-- giá trong bản lịch sử mua -->
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+            <c:if test="${not empty message}">
+                <div th:if="${message !=null}" class="alert alert-danger">[[${message}]]</div>
+            </c:if>
+            <form action="" method="post" enctype="multipart/form-data">
+                <div class="stars">
+                    <input class="star star-5" value="5" id="star-5" type="radio" name="star" required /> <label
+                        class="star star-5" for="star-5"></label>
+                    <input class="star star-4" value="4" id="star-4" type="radio" name="star" required /> <label
+                        class="star star-4" for="star-4">
+                    </label> <input class="star star-3" value="3" id="star-3" type="radio" name="star" required />
+                    <label class="star star-3" for="star-3"></label>
+                    <input class="star star-2" value="2" id="star-2" type="radio" name="star" required /> <label
+                        class="star star-2" for="star-2"></label>
+                    <input class="star star-1" value="1" id="star-1" type="radio" name="star" required /> <label
+                        class="star star-1" for="star-1"></label>
+                </div>
+                <div class="content">
+                    <input name="masanpham" class="mb-3" type="number" hidden value="${sanpham.maSanPham}"><label
+                        style="margin-top: 100px">Hình ảnh (tối đa 4)</label>
+                    <div class="image-input">
+                        <div class="image-container">
+                            <img id="previewImage1" src="${request.contextPath}/image/AnhDanhGia/${anhDG.tenHinhAnh}"
+                                alt="Chọn ảnh" /> <input name="image1" id="image1" class="mb-3" type="file"
+                                onchange="previewImage(event, 'previewImage1')" style="width: 150px">
+                        </div>
+                        <div class="image-container">
+                            <img id="previewImage2" src="#" alt="Chọn ảnh" /> <input name="image2" id="image2"
+                                class="mb-3" type="file" onchange="previewImage(event, 'previewImage2')"
+                                style="width: 150px">
+                        </div>
+                        <div class="image-container">
+                            <img id="previewImage3" src="#" alt="Chọn ảnh" /> <input name="image3" id="image3"
+                                class="mb-3" type="file" onchange="previewImage(event, 'previewImage3')"
+                                style="width: 150px">
+                        </div>
+                        <div class="image-container">
+                            <img id="previewImage4" src="#" alt="Chọn ảnh" /> <input name="image4" id="image4"
+                                class="mb-3" type="file" onchange="previewImage(event, 'previewImage4')"
+                                style="width: 150px">
+                        </div>
+                    </div>
+                    <textarea name="content" rows="5" cols="80" placeholder="Nội dung"></textarea>
+                    <br>
+                    <div class="content-btn mt-3" style="text-align: right;">
+                        <button class="btn btn-out btn-secondary me-3">Thoát</button>
+                        <button class="btn btn-agree btn-warning" formaction="${request.contextPath}/danh-gia" }>Đánh
+                            giá</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Footer -->
+        <%@ include file="footer.jsp" %>
+            <!-- End Footer -->
+            <script type="text/javascript">
+                function previewImage(event, previewId) {
+                    var reader = new FileReader();
+                    var image = document.getElementById(previewId);
+
+                    reader.onload = function () {
+                        if (reader.readyState == 2) {
+                            image.src = reader.result;
+                        }
+                    }
+
+                    reader.readAsDataURL(event.target.files[0]);
+                }
+            </script>
+            <!-- Bootstrap JavaScript Libraries -->
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+                integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+                crossorigin="anonymous"></script>
+
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+                integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+                crossorigin="anonymous"></script>
+</body>
+
+</html>

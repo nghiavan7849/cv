@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-SnackVietApplication<SnackViet>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.snackviet.SnackVietApplication",
+      "projectName": "SnackViet",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}

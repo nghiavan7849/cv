@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.thymeleaf.org" th:replace="~{/admin/adminLayout :: dynamic(~{::body})}">
+
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+</head>
+
+<body>
+
+    <div class="container-fluid p-0">
+        <h1 class="h3 mb-3">Thống kê dữ liệu</h1>
+        <div class="analyticsList" style="margin-top:20px;">
+            <form method="get" action="/adminIndex/thong-ke">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label class="form-label">Ngày bắt đầu:</label>
+                        <input th:value="${#dates.format(ngayFrom,'yyyy-MM-dd')}" name="ngayFrom" class="form-control"
+                            type="date" placeholder="Nhập vào ngày bắt đầu">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Ngày kết thúc:</label>
+                        <input th:value="${#dates.format(ngayTo,'yyyy-MM-dd')}" name="ngayTo" class="form-control"
+                            type="date" placeholder="Nhập vào ngày kết thúc">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Bộ lọc:</label>
+                        <div class="input-group mb-3">
+                            <select name="select" class="form-select" aria-label="Default select example">
+                                <option th:if="${not #strings.isEmpty(displaySelected)}" selected hidden>
+                                    [[${displaySelected}]]</option>
+                                <option th:if="${#strings.isEmpty(displaySelected)}" disabled selected hidden>Chọn bộ
+                                    lọc</option>
+                                <option value="Lọc theo doanh thu">Lọc theo doanh thu</option>
+                            </select>
+                            <button id="searchButton" class="btn btn-success">Tìm kiếm</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <div th:if="${filterType == 'doanhThu'}">
+                <table id="dataTable" class="table table-striped table-hover table-light">
+                    <thead class="table-warning text-center">
+                        <tr>
+                            <th>Loại sản phẩm</th>
+                            <th>Số lượng bán</th>
+                            <th>Doanh thu</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                        <tr th:each="row : ${revenueData}">
+                            <td th:text="${row[0]}"></td>
+                            <td th:text="${row[1]}"></td>
+                            <td th:text="${#numbers.formatDecimal(row[2], 0, 'COMMA',0,'POINT')} + ' VNĐ'"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                </table>
+                <h2 class="text-primary">Tổng doanh thu: <span
+                        th:text="${#numbers.formatDecimal(totalRevenue, 0, 'COMMA',0,'POINT') + ' VNĐ'}"></span></h2>
+            </div>
+
+        </div>
+    </div>
+
+    <script th:src="@{/js/app.js}"></script>
+
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    <!-- Thêm mã JavaScript -->
+    <script type="text/javascript">
+        // Hàm hiển thị thông báo thành công
+        function showSuccessAlert(message) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Thành công!',
+                text: message,
+                showConfirmButton: true
+            });
+        }
+
+        // Hàm hiển thị thông báo lỗi
+        function showErrorAlert(message) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Thất bại!',
+                text: message,
+                showConfirmButton: true
+            });
+        }
+    </script>
+
+    <div th:if="${param.notFound != null && param.notFound[0] == 'date'}">
+        <script type="text/javascript">
+            showErrorAlert("Ngày bắt đầu phải sớm hơn ngày kết thúc!");
+        </script>
+    </div>
+
+    
+
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

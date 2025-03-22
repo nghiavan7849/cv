@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.thymeleaf.org" th:replace="~{/admin/adminLayout :: dynamic(~{::body})}">
+
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+</head>
+
+<body>
+    <div class="container-fluid p-0">
+        <h1 class="h3 mb-3">Danh sách đánh giá sản phẩm</h1>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col mt-0">
+                                <h5 class="card-title">Tổng số bình luận</h5>
+                            </div>
+
+                            <div class="col-auto">
+                                <div class="stat text-primary">
+                                    <i class="fa-solid fa-file-invoice"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <h1 class="mt-1 mb-3">
+                            [[${#lists.size(total)}]]
+                        </h1>
+                        <!-- 									<div class="mb-0"> -->
+                        <!-- 										<span class="text-success fw-bold"> <i class="mdi mdi-arrow-bottom-right"></i> 16% -->
+                        <!-- 										</span> <span class="text-muted">Tăng trong tháng</span> -->
+                        <!-- 									</div> -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col mt-0">
+                                <h5 class="card-title">Số sản phẩm đạt 5 sao</h5>
+                            </div>
+
+                            <div class="col-auto">
+                                <div class="stat text-primary">
+                                    <i class="fa-solid fa-file-invoice"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <h1 class="mt-1 mb-3">
+                            [[${#lists.size(fivestar)}]]
+                        </h1>
+                        <!-- 									<div class="mb-0"> -->
+                        <!-- 										<span class="text-success fw-bold"> <i class="mdi mdi-arrow-bottom-right"></i> 16% -->
+                        <!-- 										</span> <span class="text-muted">Tăng trong tháng</span> -->
+                        <!-- 									</div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="commentDetail d-flex justify-content-center">
+            <div class="card" style="width: 1000px; height: 400px;">
+                <div class="card-body">
+                    <!-- NẾU NGƯỜI DÙNG CLICK VÀO EDIT THÌ HIỂN THỊ -->
+                    <div th:if="${not #lists.isEmpty(displayR)}">
+                        <div class="d-flex">
+                            <img class="rounded-circle" alt="ảnh người dùng"
+                                th:src="@{/image/avatars/{image}(image=${displayR.taiKhoanDG.hinhAnh})}"
+                                style="width: 10%;">
+                            <div class="customerDetail" style="margin-left:15px;">
+                                <p class="fw-bold" th:text="${displayR.taiKhoanDG.hoVaTen}"></p>
+                                <p style="color: rgb(163, 163, 163);"
+                                    th:text="${#dates.format(displayR.ngayDanhGia, 'yyyy-MM-dd')}"></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <p th:text="${displayR.binhLuan}"></p>
+                                <span th:each="i : ${#numbers.sequence(1, displayR.soSao)}">⭐</span>
+                                <span th:text="${displayR.soSao}"></span>
+                            </div>
+                            <div class="col-md-8 text-center">
+                                <div class="row">
+                                    <div th:each="hinh : ${listHinhDG}" style="margin-bottom:20px;"
+                                        class="col-md-4 text-center">
+                                        <a th:href="@{/image/AnhDanhGia/{image}(image=${hinh.tenHinhAnh})}"
+                                            data-lightbox="review-images">
+                                            <img alt="" th:src="@{/image/AnhDanhGia/{image}(image=${hinh.tenHinhAnh})}"
+                                                style="height:120px;">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div th:if="${#lists.isEmpty(displayR)}">
+                        <h2 class="text-center"
+                            style="color: grey; position: absolute; top: 50%; left: 25%; right: 25%">
+                            Chọn dữ liệu để hiển thị
+                        </h2>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="commentList" style="margin-top:20px;">
+            <h4 class="text-center"> Đánh giá sản phẩm </h4>
+            <form method="get" action="/adminIndex/danh-gia">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="input-group mb-3">
+                            <select id="sortSelect" name="sort" class="form-select" aria-label="Default select example"
+                                onchange="toggleSearchAndDateFields()">
+                                <option th:if="${not #strings.isEmpty(displaySelected)}" th:text="${displaySelected}"
+                                    selected hidden></option>
+                                <option th:if="${#strings.isEmpty(displaySelected)}" disabled selected hidden>Chọn bộ
+                                    lọc</option>
+                                <option value="Ngày đánh giá">Ngày đánh giá</option>
+                                <option value="Tên sản phẩm">Tên sản phẩm</option>
+                                <option value="Số sao">Số sao</option>
+                                <option value="Trạng thái hiển thị">Trạng thái hiển thị</option>
+                                <option value="Trạng thái ẩn">Trạng thái ẩn</option>
+                                <option value="Bình luận">Bình luận</option>
+                            </select>
+                            <div id="searchField">
+                                <input name="search" type="text" th:value="${param.search}" class="form-control"
+                                    placeholder="Tìm kiếm">
+                                <button class="btn btn-success">Tìm kiếm</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="dateFields" class="col-md-4" style="display: none;">
+                        <div class="input-group mb-3">
+                            <input th:value="${#dates.format(ngayFrom, 'yyyy-MM-dd')}" name="ngayFrom" type="date"
+                                class="form-control" placeholder="Từ">
+                            <input th:value="${#dates.format(ngayTo, 'yyyy-MM-dd')}" name="ngayTo" type="date"
+                                class="form-control" placeholder="Đến">
+                            <button class="btn btn-success">Tìm kiếm</button>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+
+            <table class="table table-striped table-hover table-light">
+                <thead class="table-warning text-center">
+                    <tr>
+                        <th>Mã đánh giá</th>
+                        <th>Ngày đánh giá</th>
+                        <th>Trạng thái</th>
+                        <th>Tên khách hàng</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Bình luận</th>
+                        <th>Số sao</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    <tr th:each="r : ${reviews}">
+                        <td th:text="${r.maDanhGia}"></td>
+                        <td th:text="${r.ngayDanhGia}"></td>
+                        <td><span class="badge" th:classappend="${r.trangThai ? 'bg-success' : 'bg-danger'}"
+                                th:text="${r.trangThai ? 'Hiển thị' : 'Ẩn'}"></span></td>
+                        <td th:text="${r.taiKhoanDG.hoVaTen}"></td>
+                        <td th:text="${r.sanPhamDG.tenSanPham}"></td>
+                        <td th:text="${r.binhLuan}"></td>
+                        <td>
+                            <span th:each="i : ${#numbers.sequence(1, r.soSao)}">⭐</span>
+                        </td>
+                        <td>
+                            <a
+                                th:href="@{|/adminIndex/danh-gia/${r.maDanhGia}?pageNo=&pageSize=${pageSize}&search=${search}&sort=${sort}|}">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="text-center" th:if="${totalPages==0}">
+                <p class="fw-bold">Không tìm thấy đánh giá tương ứng</p>
+            </div>
+
+            <div class="d-flex justify-content-between" style="margin-top:25px;">
+                <!-- Vị trí hiển thị số trang -->
+                <p class="fw-bold" th:text="'Đang xem trang ' + ${currentPage} + ' / ' + ${totalPages}"></p>
+
+                <!-- Cập nhật nút phân trang -->
+                <nav class="pagination-outer" aria-label="Page navigation">
+                    <ul class="pagination">
+                        <li class="page-item" th:classappend="${currentPage <= 1 ? 'disabled' : ''}">
+                            <a th:href="@{/adminIndex/danh-gia(pageNo=${currentPage - 1}, pageSize=${pageSize}, search=${search}, sort=${sort}, ngayFrom=${#dates.format(ngayFrom, 'yyyy-MM-dd')}, ngayTo=${#dates.format(ngayTo, 'yyyy-MM-dd')})}"
+                                class="page-link" aria-label="Previous">
+                                <span aria-hidden="true">«</span>
+                            </a>
+                        </li>
+                        <li class="page-item" th:each="page : ${#numbers.sequence(1, totalPages)}"
+                            th:classappend="${currentPage == page ? 'active' : ''}">
+                            <a class="page-link"
+                                th:href="@{/adminIndex/danh-gia(pageNo=${page}, pageSize=${pageSize}, search=${search}, sort=${sort}, ngayFrom=${#dates.format(ngayFrom, 'yyyy-MM-dd')}, ngayTo=${#dates.format(ngayTo, 'yyyy-MM-dd')})}">
+                                [[${page}]]
+                            </a>
+                        </li>
+                        <li class="page-item"
+                            th:classappend="${(totalPages == 0 || currentPage >= totalPages) ? 'disabled' : ''}">
+                            <a th:href="@{/adminIndex/danh-gia(pageNo=${currentPage + 1}, pageSize=${pageSize}, search=${search}, sort=${sort}, ngayFrom=${#dates.format(ngayFrom, 'yyyy-MM-dd')}, ngayTo=${#dates.format(ngayTo, 'yyyy-MM-dd')})}"
+                                class="page-link" aria-label="Next">
+                                <span aria-hidden="true">»</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <p class="fw-bold">5 sản phẩm / 1 trang</p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <script>
+        function toggleSearchAndDateFields() {
+            var sortSelect = document.getElementById("sortSelect");
+            var searchField = document.getElementById("searchField");
+            var dateFields = document.getElementById("dateFields");
+
+            if (sortSelect.value === "Ngày đánh giá") {
+                searchField.style.display = "none";
+                dateFields.style.display = "flex"; // Sử dụng flex để giữ các phần tử trong cùng một hàng
+            } else {
+                searchField.style.display = "flex"; // Sử dụng flex để giữ các phần tử trong cùng một hàng
+                dateFields.style.display = "none";
+            }
+        }
+
+        // Gọi hàm này khi trang được tải để đặt trạng thái ban đầu
+        window.onload = toggleSearchAndDateFields;
+    </script>
+
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    <!-- Thêm mã JavaScript -->
+    <script type="text/javascript">
+        // Hàm hiển thị thông báo thành công
+        function showSuccessAlert(message) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Thành công!',
+                text: message,
+                showConfirmButton: true
+            });
+        }
+
+        // Hàm hiển thị thông báo lỗi
+        function showErrorAlert(message) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Thất bại!',
+                text: message,
+                showConfirmButton: true
+            });
+        }
+    </script>
+
+    <!-- Sử dụng Thymeleaf để truyền thông tin -->
+    <div th:if="${param.notFound !=null and param.notFound[0] == 'true'}">
+        <script type="text/javascript">
+            showErrorAlert("Không tìm thấy đánh giá!");
+        </script>
+    </div>
+    <div th:if="${param.notFound != null && param.notFound[0] == 'date'}">
+        <script type="text/javascript">
+            showErrorAlert("Ngày bắt đầu phải sớm hơn ngày kết thúc!");
+        </script>
+    </div>
+    
+    <script th:src="@{/js/app.js}"></script>
+
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

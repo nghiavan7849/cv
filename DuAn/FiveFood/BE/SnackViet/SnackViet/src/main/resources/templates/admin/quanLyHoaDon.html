@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.thymeleaf.org" th:replace="~{/admin/adminLayout :: dynamic(~{::body})}">
+
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
+
+    <link rel="canonical" href="https://demo-basic.adminkit.io/" />
+    <link href="/css/app.css" rel="stylesheet">
+    <link href="/css/pagination.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- SweetAlert2 CSS -->
+	<link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/sweetalert2@10}"></link>
+</head>
+
+<body>
+
+    <div class="container-fluid p-0">
+
+        <h1 class="h3 mb-3">Danh sách hóa đơn</h1>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col mt-0">
+                                <h5 class="card-title">Tổng số hóa đơn</h5>
+                            </div>
+
+                            <div class="col-auto">
+                                <div class="stat text-primary">
+                                    <i class="fa-solid fa-file-invoice"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <h1 class="mt-1 mb-3" th:text="${#lists.size(total)}">0</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col mt-0">
+                                <h5 class="card-title">Số hóa đơn bị hủy</h5>
+                            </div>
+
+                            <div class="col-auto">
+                                <div class="stat text-primary">
+                                    <i class="fa-solid fa-file-invoice"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <h1 class="mt-1 mb-3" th:text="${#lists.size(canceled)}">0</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="invoiceDetail" style="margin-top:20px;">
+            <h4> Hóa đơn chi tiết </h4>
+            <form method="post" action="">
+                <div class="row">
+                    <div class="col-md-8">
+                        <table class="table table-striped table-hover table-light">
+                            <thead class="table-warning text-center">
+                                <th>Tên sản phẩm</th>
+                                <th>Số lượng</th>
+                            </thead>
+
+                            <tbody class="text-center">
+                                <tr th:each="detail : ${displayI}">
+                                    <td th:text="${detail.sanPhamCT.tenSanPham}">Tên sản phẩm</td>
+                                    <td th:text="${detail.soLuong}">Số lượng</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Trạng thái:</label>
+                            <select name="trangThaiHoaDon.tenTrangThai" class="form-select"
+                                aria-label="Default select example">
+                                <option
+                                    th:value="${displayHoaDon != null && displayHoaDon.trangThaiHoaDon != null ? displayHoaDon.trangThaiHoaDon.tenTrangThai : ''}"
+                                    th:text="${displayHoaDon != null && displayHoaDon.trangThaiHoaDon != null ? displayHoaDon.trangThaiHoaDon.tenTrangThai : 'Chọn trạng thái'}"
+                                    selected hidden>
+                                    Chọn trạng thái
+                                </option>
+                                <option th:each="trangThaiHoaDon : ${listTrangThai}"
+                                    th:value="${trangThaiHoaDon != null ? trangThaiHoaDon.tenTrangThai : 'NULL'}"
+                                    th:text="${trangThaiHoaDon != null ? trangThaiHoaDon.tenTrangThai : 'NULL'}">
+                                </option>
+                            </select>
+                            <em class="text-danger" th:text="${errType}"></em>
+                        </div>
+                        <button th:if="${editting == true}"
+                            th:formaction="@{/adminIndex/quan-ly-hoa-don/update/{id}(id=${displayHoaDon.maHoaDon ?: idForUpdate})}"
+                            class="btn btn-info">Cập nhật trạng thái đơn hàng</button>
+                        <button th:if="${editting != true}" class="btn btn-info" disabled>Cập nhật trạng thái đơn
+                            hàng</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="invoiceList" style="margin-top:20px;">
+            <h4 class="text-center"> Danh sách hóa đơn </h4>
+            <form action="/adminIndex/quan-ly-hoa-don" method="get">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="input-group mb-3">
+                            <select id="sortSelect" name="sort" onchange="toggleSearchAndDateFields()"
+                                class="form-select" aria-label="Default select example">
+                                <option th:value="${displaySelected ?: 'Chọn bộ lọc'}" selected hidden
+                                    th:text="${displaySelected ?: 'Chọn bộ lọc'}">Chọn bộ lọc</option>
+                                <option value="Mã hóa đơn">Mã hóa đơn</option>
+                                <option value="Tên khách hàng">Tên khách hàng</option>
+                                <option value="Ngày thanh toán">Ngày thanh toán</option>
+                                <option value="Trạng thái">Trạng thái</option>
+                            </select>
+                            <div id="searchField">
+                                <input name="search" type="text" th:value="${param.search}" class="form-control"
+                                    placeholder="Tìm kiếm">
+                                <button class="btn btn-success">Tìm kiếm</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="dateFields" class="col-md-4" style="display: none;">
+                        <div class="input-group mb-3">
+                            <input th:value="${#dates.format(ngayFrom, 'yyyy-MM-dd')}" name="ngayFrom" type="date"
+                                class="form-control" placeholder="Từ">
+                            <input th:value="${#dates.format(ngayTo, 'yyyy-MM-dd')}" name="ngayTo" type="date"
+                                class="form-control" placeholder="Đến">
+                            <button class="btn btn-success">Tìm kiếm</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <table class="table table-striped table-hover table-light">
+                <thead class="table-warning text-center">
+                    <th>Mã hóa đơn</th>
+                    <th>Ngày thanh toán</th>
+                    <th>Trạng thái</th>
+                    <th>Tên khách hàng</th>
+                    <th>Tổng tiền sản phẩm</th>
+                    <th>Địa chỉ</th>
+                    <th>Ghi chú</th>
+                    <th>Phí vận chuyển</th>
+                    <th>Phương thức thanh toán</th>
+                    <th>Tổng cộng</th>
+                    <th>Hành động</th>
+                </thead>
+
+                <tbody class="text-center">
+                    <tr th:each="invoice : ${invoices}">
+                        <td th:text="${invoice.maHoaDon}">Mã hóa đơn</td>
+                        <td th:text="${invoice.ngayThanhToan}">Ngày thanh toán</td>
+                        <td>
+                            <span class="badge"
+                                th:classappend="${invoice.trangThaiHoaDon.tenTrangThai == 'Đã Hủy' ? 'bg-danger' : invoice.trangThaiHoaDon.tenTrangThai == 'Đang xử lý' ? 'bg-warning' : invoice.trangThaiHoaDon.tenTrangThai == 'Đang vận chuyển' ? 'bg-info' : 'bg-success'}"
+                                th:text="${invoice.trangThaiHoaDon.tenTrangThai}">Trạng thái</span>
+                        </td>
+                        <td th:text="${invoice.taiKhoanHD.hoVaTen}">Tên khách hàng</td>
+                        <td>
+                            <span th:text="${#numbers.formatDecimal(invoice.tongTien, 0, 'COMMA',0, 'POINT')}">Tổng
+                                tiền</span>
+                            VNĐ
+                        </td>
+                        <td th:text="${invoice.diaChi}">Địa chỉ</td>
+                        <td th:text="${invoice.ghiChu != null ? 'Không có' : invoice.ghiChu}">Ghi chú</td>
+                        <td>
+                            <span th:text="${#numbers.formatDecimal(invoice.phiVanChuyen, 0,'COMMA',0, 'POINT')}">Phí
+                                vận chuyển</span> VNĐ
+                        </td>
+                        <td th:text="${invoice.phuongThucThanhToan ? 'Thanh toán online' : 'Thanh toán khi nhận hàng'}">
+                            Phương thức thanh toán</td>
+                        <td>
+                            <span
+                                th:text="${#numbers.formatDecimal(invoice.tongTien + invoice.phiVanChuyen, 0, 'COMMA',0, 'POINT')}">Tổng
+                                cộng</span> VNĐ
+                        </td>
+                        <td><a th:href="@{/adminIndex/quan-ly-hoa-don/{id}(id=${invoice.maHoaDon})}"><i
+                                    class="fa-solid fa-pen-to-square"></i></a></td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+            <div class="text-center" th:if="${totalPages==0}">
+                <p class="fw-bold">Không tìm thấy hóa đơn tương ứng</p>
+            </div>
+
+            <div th:unless="${totalPages==0}" class="d-flex justify-content-between" style="margin-top:25px;">
+                <!-- Vị trí hiển thị số trang -->
+                <p class="fw-bold">Đang xem trang [[${currentPage}]] / [[${totalPages}]]</p>
+
+                <!-- Cập nhật nút phân trang -->
+                <nav class="pagination-outer" aria-label="Page navigation">
+                    <ul class="pagination">
+                        <li class="page-item" th:classappend="${currentPage <= 1 ? 'disabled' : ''}">
+                            <a th:href="@{/adminIndex/quan-ly-hoa-don(pageNo=${currentPage - 1}, pageSize=${pageSize}, search=${search}, sort=${sort}, ngayFrom=${#dates.format(ngayFrom, 'yyyy-MM-dd')}, ngayTo=${#dates.format(ngayTo, 'yyyy-MM-dd')})}"
+                                class="page-link" aria-label="Previous">
+                                <span aria-hidden="true">«</span>
+                            </a>
+                        </li>
+                        <li class="page-item" th:each="page : ${#numbers.sequence(1, totalPages)}"
+                            th:classappend="${currentPage == page} ? 'active'">
+                            <a th:href="@{/adminIndex/quan-ly-hoa-don(pageNo=${page}, pageSize=${pageSize}, search=${search}, sort=${sort}, ngayFrom=${#dates.format(ngayFrom, 'yyyy-MM-dd')}, ngayTo=${#dates.format(ngayTo, 'yyyy-MM-dd')})}"
+                                class="page-link" th:text="${page}">1</a>
+                        </li>
+                        <li class="page-item"
+                            th:classappend="${totalPages == 0 or currentPage >= totalPages} ? 'disabled'">
+                            <a th:href="@{/adminIndex/quan-ly-hoa-don(pageNo=${currentPage + 1}, pageSize=${pageSize}, search=${search}, sort=${sort}, ngayFrom=${#dates.format(ngayFrom, 'yyyy-MM-dd')}, ngayTo=${#dates.format(ngayTo, 'yyyy-MM-dd')})}"
+                                class="page-link" aria-label="Next">
+                                <span aria-hidden="true">»</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <p class="fw-bold">5 sản phẩm / 1 trang</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+	    function toggleSearchAndDateFields() {
+	        var sortSelect = document.getElementById("sortSelect");
+	        var searchField = document.getElementById("searchField");
+	        var dateFields = document.getElementById("dateFields");
+	        
+	        if (sortSelect.value === "Ngày thanh toán") {
+	            searchField.style.display = "none";
+	            dateFields.style.display = "flex"; // Sử dụng flex để giữ các phần tử trong cùng một hàng
+	        } else {
+	            searchField.style.display = "flex"; // Sử dụng flex để giữ các phần tử trong cùng một hàng
+	            dateFields.style.display = "none";
+	        }
+	    }
+	    
+	    // Gọi hàm này khi trang được tải để đặt trạng thái ban đầu
+	    window.onload = toggleSearchAndDateFields;
+	</script>
+	
+	<!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    <!-- Thêm mã JavaScript -->
+    <script type="text/javascript">
+        function showSuccessAlert(message) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Thành công!',
+                text: message,
+                showConfirmButton: true
+            });
+        }
+
+        function showErrorAlert(message) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Thất bại!',
+                text: message,
+                showConfirmButton: true
+            });
+        }
+
+    </script>
+	
+	
+	<!-- Sử dụng Thymeleaf để truyền thông tin -->
+    <div th:if="${param.updateHD !=null and param.updateHD[0] == 'success'}">
+        <script type="text/javascript">
+            showSuccessAlert("Cập nhật trạng thái hóa đơn thành công!");
+        </script>
+    </div>
+    <div th:if="${param.notFound != null && param.notFound[0] == 'true'}">
+        <script type="text/javascript">
+            showErrorAlert("Không tìm thấy hóa đơn yêu cầu!");
+        </script>
+    </div>
+    <div th:if="${param.notFound != null && param.notFound[0] == 'date'}">
+        <script type="text/javascript">
+            showErrorAlert("Ngày bắt đầu phải sớm hơn ngày kết thúc!");
+        </script>
+    </div>
+
+    <script th:src="@{/js/app.js}"></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

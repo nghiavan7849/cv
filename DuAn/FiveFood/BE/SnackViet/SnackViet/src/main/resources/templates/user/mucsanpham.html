@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <link rel="stylesheet" th:href="@{/css/chitietsanpham.css}">
+    <link rel="stylesheet" th:href="@{/css/menu.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+</head>
+
+<body>
+
+    <div class="col-md-3" th:each="sp : ${sanPhams}">
+        <div class="card">
+            <a th:href="@{|/chi-tiet-san-pham/${sp.maSanPham}|}">
+                <img th:src="@{|/image/AnhSanPham/${sp.hinhAnh}|}" class="card-img-top" height="280px">
+            </a>
+            <div class="card-body">
+                <h3 class="product-name">[[${sp.tenSanPham}]]</h3>
+                <span class="product-price" th:text="${#numbers.formatDecimal(sp.gia,0,'COMMA',2,'POINT')}">
+                    
+                </span>
+                <button class="btn btn-success" style="margin: 0 0 0 10px">Mua
+                    ngay</button>
+            </div>
+        </div>
+        <br>
+    </div>
+    <div class="see-more">
+        <form action="" method="post">
+            <button class="btn xem-them"
+                th:formaction="@{|/chi-tiet-san-pham?pageSize=${pageSize+4}|}">Xem
+                Thêm</button>
+        </form>
+    </div>
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

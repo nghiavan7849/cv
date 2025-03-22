@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng ký</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+          crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/dangky.css}">
+</head>
+<body>
+    <div class="dangnhap">
+        <div class="div-image">
+            <img th:src="@{/image/backgrounddangnhap.png}" alt="">
+        </div>
+        <div class="div-main">
+            <div class="d-flex justify-content-center mt-2">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="text-center fs-2 fw-bold">Đăng ký</div>
+                        <span class="text-warning" th:text="${messageSuccess}"></span>
+                        <div class="mt-4">
+                            <form th:action="@{/dang-ky/submit}" method="post">
+                                <div class="d-flex justify-content-center div-input">
+                                    <div class="input-box">
+                                        <div>
+                                            <i class="fa-solid fa-user"></i>
+                                            <input type="text" placeholder="Họ và tên" name="hoVaTen" th:value="${hoVaTen}">
+                                        </div>
+                                        <span class="text-danger" th:text="${messageHoVaTen}"></span>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-center div-input mt-1">
+                                    <div class="input-box">
+                                        <div>
+                                            <i class="fa-solid fa-user"></i>
+                                            <input type="text" placeholder="Tên đăng nhập" name="tenDangNhap" th:value="${tenDangNhap}">
+                                        </div>
+                                        <span class="text-danger" th:text="${messageTenDangNhap}"></span>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-center div-input mt-1">
+                                    <div class="input-box">
+                                        <div>
+                                            <i class="fa-solid fa-phone"></i>
+                                            <input type="text" placeholder="Số điện thoại" name="soDienThoai" th:value="${soDienThoai}">
+                                        </div>
+                                        <span class="text-danger" th:text="${messageSoDienThoai}"></span>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-center div-input mt-1">
+                                    <div class="input-box">
+                                        <div>
+                                            <i class="fa-regular fa-envelope"></i>
+                                            <input type="text" placeholder="Email" name="email" th:value="${email}">
+                                        </div>
+                                        <span class="text-danger" th:text="${messageEmail}"></span>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-center div-input">
+                                    <div class="input-box">
+                                        <div>
+                                            <i class="fa-solid fa-lock"></i>
+                                            <input type="password" placeholder="Mật khẩu" name="matKhau" th:value="${matKhau}">
+                                        </div>
+                                        <span class="text-danger" th:text="${messageMatKhau}"></span>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-center div-input">
+                                    <div class="input-box">
+                                        <div>
+                                            <i class="fa-solid fa-lock"></i>
+                                            <input type="password" placeholder="Xác Nhận Mật khẩu" name="xnmatKhau" th:value="${xnmatKhau}">
+                                        </div>
+                                        <span class="text-danger" th:text="${messageXacNhanMatKhau}"></span>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-center div-button">
+                                    <div class="d-flex justify-content-center mt-3">
+                                        <button class="btn btn-primary rounded-3 fw-bold">Đăng ký</button>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-center mt-3 div-button">
+                                    Bạn đã có tài khoản? <a th:href="@{/dang-nhap}">Đăng nhập</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
