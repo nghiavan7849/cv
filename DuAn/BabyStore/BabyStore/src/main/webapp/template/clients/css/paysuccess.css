@@ -1,0 +1,58 @@
+@charset "UTF-8";
+
+.body-pay-success {
+	background-color: #F8F8F8;
+	color: #000;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+	
+	.payment-header {
+		font-size: 1.75rem;
+		margin-top: 20px;
+		margin-bottom: 20px;
+		text-align: center;
+		font-weight: bold;
+	}
+	
+	.order-details, .order-summary {
+		background-color: #fff;
+		padding: 20px;
+		margin-top: 20px;
+		border-radius: 10px;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		transition: transform 0.3s, box-shadow 0.3s;
+	}
+	
+	.order-details:hover, .order-summary:hover {
+		transform: translateY(-10px);
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+	}
+	
+	.order-details h4, .order-summary h4 {
+		margin-bottom: 20px;
+		color: #000;
+		font-weight: bold;
+		text-align: center;
+	}
+	
+	.order-summary p {
+		margin-bottom: 10px;
+	}
+	
+	.table-borderless td, .table-borderless th {
+		border: 0;
+	}
+	
+	.total-amount {
+		font-size: 1.2em;
+		font-weight: bold;
+	}
+	
+	.note {
+		color: #6c757d;
+		text-align: center;
+	}
+	
+	.order-summary {
+		border-left: 5px solid #067A38;
+	}
+}

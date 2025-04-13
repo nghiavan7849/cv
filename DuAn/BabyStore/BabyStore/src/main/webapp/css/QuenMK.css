@@ -1,0 +1,49 @@
+@charset "UTF-8";
+article{
+    height: 640px;  
+}
+footer{
+    height: 400px;
+    background-color:rgb(15, 14, 14);
+}
+.custom-icon {
+    font-size: 2rem;
+    margin: 10px;
+  }
+  .img-icon {
+    width: 50px;
+    height: 50px;
+    display: inline-block;
+    vertical-align: middle;
+  }    
+  .form-container {
+    width: 400px;
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 40px;
+  }
+.form-control{
+    width: 100%;
+    position: relative;
+    background-color: white;
+}
+#submit{
+  width: 100%;
+}
+#submit:hover{
+  background-color: white;
+  color: red;
+  border: 1px solid red;
+}
+#recoverPassword{
+  width: 100%;
+}
+#recoverPassword:hover{
+  background-color: white;
+  color: red;
+  border: 1px solid red;
+  width: 100%;
+}
+input[type="text"], input[type="email"], input[type="password"] ,input[type="phone"]{
+  background-color: #f2f2f2;
+}

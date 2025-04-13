@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<decorators defaultdir="/WEB-INF/decorators/">
+    <mapping url="/admin/*" decorator="admin.jsp"/>
+    <mapping url="/*" decorator="web.jsp"/>
+</decorators>
